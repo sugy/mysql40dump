@@ -32,7 +32,7 @@ sub lc_key {
 sub get_local_ip {
     my $cidr = Net::CIDR::Lite->new;
     $cidr->add_any('10.0.0.0/8');
-    $cidr->add_any('127.16.0.1/12');
+    $cidr->add_any('172.16.0.1/12');
     $cidr->add_any('192.168.0.0/16');
     my $sysaddr = Sys::HostAddr->new( ipv => 4 );
     my $main_ip = $sysaddr->main_ip;
