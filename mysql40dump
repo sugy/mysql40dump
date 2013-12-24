@@ -6,6 +6,7 @@ use DBI;
 use Getopt::Long;
 use Sys::HostAddr qw//;
 use Net::CIDR::Lite;
+use List::Util qw(first);
 
 sub _log {
     my $log = ( @_ > 1 ) ? sprintf shift,@_ : $_[0];
