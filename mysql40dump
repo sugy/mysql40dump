@@ -50,7 +50,7 @@ sub get_master_status {
     my $sth = $dbh->prepare('SHOW MASTER STATUS');
     $sth->execute;
     my $repl_status = lc_key($sth->fetchrow_hashref('NAME'));
-    die "Died: couldnot get master status" unless $repl_status->{file};
+    #die "Died: couldnot get master status" unless $repl_status->{file};
 
     if ( !$master{port} ) {
         my $variables = $dbh->selectrow_arrayref(q!SHOW VARIABLES LIKE 'port'!, {});
@@ -60,6 +60,9 @@ sub get_master_status {
 
     $master{host} ||= get_local_ip();
     die "Died: couldnot get own ipaddr" unless $master{host};
+
+    $repl_status->{file} ||= '';
+    $repl_status->{position} ||= '';
 
     return sprintf "CHANGE MASTER TO MASTER_LOG_FILE='%s', MASTER_LOG_POS=%s, MASTER_HOST='%s', MASTER_PORT=%s, MASTER_USER='%s', MASTER_PASSWORD='%s';",
         $repl_status->{file},
